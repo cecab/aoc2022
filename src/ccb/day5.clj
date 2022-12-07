@@ -50,17 +50,34 @@
 
 (defn exe-cmd
   [db cmd]
-  (let [{:keys [from to]} cmd
-        item-to-move (get-in db [from 0])]
+  (let [{:keys [qty from to]} cmd
+        items-to-move (take qty (db from))]
     (-> db
-        (update from (comp vec rest))
-        (update to #(vec (conj (apply list %) item-to-move))))))
+        (update from #(vec (drop qty %)))
+        (update to #(vec (concat items-to-move %))))))
 
 (defn day-5-part-1
   [filename]
   (let [lines 
         (parse-lines filename)
         all-cmds (expand-commands (parse-commands lines))
+        final-db 
+        (->> all-cmds
+             (reduce exe-cmd (parse-input lines)))
+        answer (str/join
+                (map #(first (get final-db %))
+                     (sort (keys final-db))))]
+    {:all-cmds all-cmds
+     :answer answer
+     :final-db final-db}
+    answer))
+
+
+(defn day-5-part-2
+  [filename]
+  (let [lines 
+        (parse-lines filename)
+        all-cmds (parse-commands lines)
         final-db 
         (->> all-cmds
              (reduce exe-cmd (parse-input lines)))
@@ -117,4 +134,7 @@
   ;; Manual check.
   (day-5-part-1 "day5-2.test")
   "NJVZJJDST"
+  ;; part 2
+  (day-5-part-2 "day5-ex.txt") ;; "MCD"
+  (day-5-part-2 "day5.input.txt") ;; "WZMFVGGZP"
   ,)
