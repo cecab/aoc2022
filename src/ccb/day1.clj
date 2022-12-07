@@ -3,15 +3,20 @@
 
 (defn day-1 [filename]
     (loop [lines (line-seq (io/reader (io/resource filename)))
-           max-calories 0
+           max-calories [0 0 0]
            candidate 0]
       (let [line (first lines)]
         (cond
-          (nil? line) (max max-calories candidate)
+          (nil? line) (->> (conj max-calories candidate)
+                          sort
+                          (take-last 3)
+                          (reduce + 0))
           ;; candidate is complete, contest?
           (empty? line)
           (recur (rest lines)
-                 (max max-calories candidate)
+                 (->> (conj max-calories candidate)
+                          sort
+                          (take-last 3))
                  0)
           ;; candidate still in progress
           :else
@@ -23,5 +28,7 @@
   (day-1 filename)
   ;; the challenge.
   (day-1 "day1.input.txt") ;; 75501
-
+  ;; Part 2
+  ;; Keep 3 top, not one.
+  (day-1 "day1.input.txt") ;; 215594
   ,)
