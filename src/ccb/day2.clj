@@ -7,45 +7,25 @@
   {"A" 1
    "B" 2
    "C" 3
-   "X" 1
-   "Y" 2
-   "Z" 3})
+   "X" :defeat
+   "Y" :draw
+   "Z" :defeated})
+
 (def match-points-db
-  {"A" {
-        :draw "X"
-        :defeat "Z"
-        :defeated "Y"}
-   "B" {
-        :draw "Y"
-        :defeat "X"
-        :defeated "Z"}
-   "C" {
-        :draw "Z"
-        :defeat "Y"
-        :defeated "X"}})
-(defn lost?
-  [oponent you]
-  (if (= you (get-in match-points-db [oponent :defeat] ))
-    0
-    0))
-(defn draw?
-  [oponent you]
-  (if (= you (get-in match-points-db [oponent :draw] ))
-    3
-    0))
+  {"A" {:draw "A"
+        :defeat "C"
+        :defeated "B"}
+   "B" {:draw "B"
+        :defeat "A"
+        :defeated "C"}
+   "C" {:draw "C"
+        :defeat "B"
+        :defeated "A"}})
 
-(defn win?
-  [oponent you]
-  (if (= you (get-in match-points-db [oponent :defeated] ))
-    6
-    0))
+(def winner-points {:draw 3
+                    :defeat 0
+                    :defeated 6})
 
-
-(defn match-points
-  [oponent you]
-  (->> [lost? draw? win?]
-       (map #(% oponent you) )
-       (reduce + (get points-db you))))
 
 (defn day-2-part-1
   [filename]
@@ -55,15 +35,12 @@
      (io/resource filename)))
    (map
     (fn [str-line]
-      (let [[oponent you] (-> str-line (str/split #" "))]
-        (match-points oponent you))))
+      (let [[oponent your-result] (-> str-line (str/split #" "))
+            you (get-in match-points-db [oponent (points-db your-result)])]
+        (+ (get points-db you) (winner-points (points-db your-result))))))
    (reduce + 0)))
 (comment
   (def filename "day2-ex.txt")
-  ;; define contest.
-  
-  
-  
-  (day-2-part-1 filename);; 15
-  (day-2-part-1 "day2.input.txt") ;; 12645
+  (day-2-part-1 filename) ;; 12
+  (day-2-part-1 "day2.input.txt") ;; 11756
   ,)
