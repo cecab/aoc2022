@@ -31,6 +31,7 @@
 
 (comment
   (def filename "day9-ex.txt")
+  (def filename "day9-ex-2.txt")
   (def filename "day9.input.txt")
   
   (def lines
@@ -136,13 +137,70 @@
   (count (rope-tour lines [4 0] [4 0])) ;; 13
 
   ;; With input data.
-  (count (rope-tour lines [0 0] [0 0])) ;; 6563
+  (count (rope-tour lines [0 0] [0 0])) ;; 6563 correct!
   
   ;; 6562
   ;;That's not the right answer; your answer is too low. If you're stuck, make sure you're using the full input data; there are also some general tips on the about page, or you can ask for hints on the subreddit. Please wait one minute before trying again. (You guessed 6562.) [Return to Day 9]
 
-  
+  ;; Part 2
+  ;; Many knots: H 1 2 3... 9 moving with similar rules but in a 'cascading' fashion
+  (def multirope (vec (take 10 (repeat [4 0]))))
+  ;; Moving it, means take the H and move, then follow the rest
+  (defn move-multi
+    [multirope cmd]
+    (let [next-head (cmd (first multirope))
+          next-tails
+          (loop [leading-knot next-head
+                 knots (rest multirope)
+                 new-knots []]
+            (cond
+              (empty? knots) new-knots
+              :else
+              (let [next-leading-knot (follow-head (first knots) leading-knot)]
+                (recur
+                 ;; first knot is the next leading..
+                 next-leading-knot
+                 ;; Remove first knot to continue
+                 (rest knots)
+                 ;; Add new position of the next leader
+                 (conj new-knots next-leading-knot)))))]
+      (concat [next-head] next-tails)))
 
+  ;; Tests..
+  (-> multirope
+      (move-multi  move-right)
+      (move-multi  move-right)
+      (move-multi  move-right)
+      (move-multi  move-right))
+  ;;
+  (defn multi-tour
+    [multirope lines]
+    (let [commands (expand-commands lines)]
+      (reduce
+       (fn [acc next-cmd]
+         (let [next-rope
+               (update acc :rope move-multi next-cmd)]
+           (update next-rope :tail-visited conj (-> next-rope :rope last))))
+       {:rope multirope
+        :tail-visited #{(last multirope)}}
+       (map cmd-dispatcher commands))))
+  ;; Test
+  (-> multirope
+      (multi-tour lines)
+      :tail-visited
+      count);; 1
+
+  ;; Test 2
+  (-> multirope
+      (multi-tour lines)
+      :tail-visited
+      count) ;; 36
+  ;; Input
+  (-> multirope
+      (multi-tour lines)
+      :tail-visited
+      count) ;; 2653
+  
   ,)
 
 
