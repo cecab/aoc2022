@@ -1,0 +1,31 @@
+$ cd /
+$ ls
+dir dscbfp
+283653 fsdfddfv
+dir mjzqq
+241330 rcm.psp
+dir sjbpgc
+dir zfsbvs
+$ cd dscbfp
+$ ls
+dir fgtvzpl
+dir hgfrgbv
+dir hmwqgjnl
+dir jvr
+dir lcvdgm
+dir mmhtpz
+dir wqc
+dir znl
+dir zph
+dir zwlpm
+$ cd fgtvzpl
+$ ls
+dir fvrghzfg
+28513 lbbg.rhq
+$ cd fvrghzfg
+$ ls
+212295 cjb.nwg
+dir ftqs
+$ cd ftqs
+$ ls
+250415 mmhtpz
