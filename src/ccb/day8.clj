@@ -1,5 +1,47 @@
 (ns ccb.day8
   (:require [clojure.java.io :as io]))
+
+(defn how-many-seen?
+    "How many trees I can see in this collection, starting from index 0
+     that are lower or equal that me UNTIL I find one that is equal or greater"
+    [coll ref-value]
+    (loop [not-seen coll
+           blocker []
+           already-seen []]
+      (cond
+        (or (empty? not-seen)
+            (not (empty? blocker)))
+        already-seen
+        :else
+        (recur
+         (rest not-seen)
+         (if (>= (first not-seen) ref-value)
+           (conj blocker (first not-seen))
+           blocker)
+         (conj already-seen (first not-seen))))))
+
+(defn count-seen? [coll ref-value]
+  (count (how-many-seen? coll ref-value)))
+
+
+(defn score-stream 
+    "Get the score in coll for the element idx"
+    [coll idx]
+    (let [up-stream (reverse (range 0 idx))
+          down-stream (range (inc idx) (count coll))]
+      [(count-seen? (mapv #(get coll %) up-stream) (get coll idx))
+       (count-seen? (mapv #(get coll %) down-stream) (get coll idx))]))
+
+(defn scenic-score [matrix row-idx col-idx]
+  ;; Check from all angles.
+  (let [my-row (get matrix row-idx)
+        my-column (get-column matrix row-idx col-idx)]
+    (apply * 
+           (concat (score-stream my-row col-idx)
+                   (score-stream my-column row-idx)))))
+
+
+
 (comment
   (def filename "day8-ex.txt")
   (def filename "day8.input.txt")
@@ -43,7 +85,7 @@
           matrix))
   (defn make-visible?
     [coll ref-val]
-     (not-any? #(<= ref-val %) coll))
+    (not-any? #(<= ref-val %) coll))
   
   (assert (= false (make-visible? [1 8 3] 7)))
   (assert (= true (make-visible? [4 3 2] 8)))
@@ -80,7 +122,7 @@
               (is-visible? matrix 3 1)
               (is-visible? matrix 3 2)
               (is-visible? matrix 3 3)]))
-;;
+  ;;
   (defn day-8-part-1 [matrix]
     (->> (walker matrix
                  (fn [element row-idx col-idx]
@@ -99,6 +141,39 @@
     
     
     )
+  ;; Part 2
+  ;; The new part is about the ' trees I can see' which includes
+  ;; those trees <= height than me, including the last one which
+  ;; stops me to see beyond.
+  (assert (= [[3] [5] [1 2] [3 5]]
+             [(how-many-seen? [3] 5)
+              (how-many-seen? [5 2] 5)
+              (how-many-seen? [1 2] 5)
+              (how-many-seen? [3 5 3] 5)]))
+  ;; other example
+  (assert (= [[3 5] [3 3 ] [3] [4 9]]
+             [(how-many-seen? [3 5 3] 5)
+              (how-many-seen? [3 3] 5)
+              (how-many-seen? [3] 5)
+              (how-many-seen? [4 9] 5)]))
+
+  
+
+  (assert (= 2 (score-stream [3 5 3 5 3] 1)))
+  (score-stream [2 5 5 1 2] 2)
+  
+  (assert (= 4 
+             (scenic-score matrix 1 2))) ;;
+  (assert (= 8 (scenic-score matrix 3 2)))
+  ;; Get the highest
+  (->
+   (walker matrix (fn [e r c] (scenic-score matrix r c)))
+   flatten
+   sort
+   last)
+  535680 ;; Correct! 
+  ;; with input 
+  
   
 
   ,)
