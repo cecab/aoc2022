@@ -75,15 +75,6 @@
   [lines]
   (reduce
    (fn [acc next-cmd]
-     (swap! dd0 conj (:current-path acc))
-     (assert (or
-              (empty? (:tree acc))
-              (= top-roots (-> acc :tree keys set)))
-             (str "Broken at "
-                  {:next-cmd next-cmd
-                   :current-path (-> acc :current-path)
-                   :offender (-> acc :tree keys set)
-                   :top-roots top-roots}))
      (cond
        ;; cd
        (= "cd" (:cmd next-cmd))
@@ -169,7 +160,7 @@
   ;; How to calculate the size?
   (def fs-size
     (calculate-size fs))
-  {[] 48381165, ["a" "e"] 584, ("a") 94853, ["d"] 24933642}
+  
 
   ;; Identify those with 'at most 100000'
   
@@ -179,6 +170,30 @@
   6694691
 
   ;; 95437  as expected.
-  
-  
+  ;; pART 2
+  ;; The total ocupied space is 
+  (get fs-size []) ;; 44804833
+  (def capacity 70000000)
+  (def min-free-space 30000000)
+  ;; But the total available 70000000
+  ;; Unused space >= 30000000
+  ;; but now is
+  (- 70000000 44804833) ;; 25195167
+  ;; We need to find a directory ('a!!!') only one.
+  ;; to Free up enough space...
+  ;; That 'directory'  must be AT LEAST
+  (- 30000000 25195167) ;; 4804833
+
+  ;; From the example data
+  fs-size
+  {[] 48381165, ["a" "e"] 584, ("a") 94853, ["d"] 24933642}
+  (def unused-space (- capacity (get fs-size [])))  ;; 21618835
+  (def required-to-delete (- min-free-space unused-space))
+  ;; The solution, find the smallest one to achieve the free space
+  (->>
+   (sort-by (fn [[k v]] v) fs-size)
+   (filter (fn [[k v]] (>= v required-to-delete)))
+   first
+   last)
+  ;; 5756764 ..correct! 
   ,)
