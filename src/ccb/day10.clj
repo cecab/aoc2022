@@ -2,6 +2,14 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
+
+(defn crt
+  [lines]
+    (map-indexed
+     (fn [x idx]
+       (let [sprite #{(dec x) x (inc x)}]
+         (if (sprite idx) :lit :dark)))
+     (:cycles (execute-commands lines))))
 (comment
   ;;
   (def filename "day10-ex.txt")
@@ -55,8 +63,24 @@
           (map (fn [[k v]] (* (inc k) v)))
           (reduce + 0)))
   ;;
-  (day-10-part-1 lines) ;; 13860
+  (day-10-part-1 lines) ;; 13860 correct
   ;; 13140
+  ;; PART 2
+  (def idx-cycles (range 0 220))
+  (def crt-leds
+    (partition 40 (crt lines)))
+  ;; Draw
+  (def chars {:lit "#" :dark "."})
+  ;;
+  (defn draw
+    [crt-leds]
+    (print
+     (->>
+      (map #(-> (map chars %)
+                (str/join)) crt-leds)
+      (str/join "\n"))))
+  ;;
+   
   
 
   ,)
