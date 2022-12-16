@@ -6,9 +6,13 @@
 (defn crt
   [lines]
     (map-indexed
-     (fn [x idx]
-       (let [sprite #{(dec x) x (inc x)}]
-         (if (sprite idx) :lit :dark)))
+     (fn [idx x]
+       (let [sprite #{(dec x) x (inc x)}
+             led (if (sprite (rem idx 40)) :lit :dark)]
+         {:led led
+          :sprite sprite
+          :idx  idx
+          :x x}))
      (:cycles (execute-commands lines))))
 (comment
   ;;
@@ -68,7 +72,8 @@
   ;; PART 2
   (def idx-cycles (range 0 220))
   (def crt-leds
-    (partition 40 (crt lines)))
+    (sort-by :idx
+             (partition 40 (map :led (crt lines)))))
   ;; Draw
   (def chars {:lit "#" :dark "."})
   ;;
@@ -76,10 +81,11 @@
     [crt-leds]
     (print
      (->>
-      (map #(-> (map chars %)
-                (str/join)) crt-leds)
+      (map #(-> (map chars  %)
+                (str/join))  crt-leds)
       (str/join "\n"))))
-  ;;
+  ;;print
+  (draw crt-leds)
    
   
 
