@@ -9,5 +9,6 @@ on:
 jobs:
   job-1:
     name: My first job with $var_a
-    run: |
-      echo "Hi job-1"
+    steps:
+      run: |
+        echo "Hi job-1"
