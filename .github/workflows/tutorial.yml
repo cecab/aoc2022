@@ -9,6 +9,7 @@ env:
 
 jobs:
   greeting_job:
+    name: "My job name is ${{env.CLUSTER}}"
     runs-on: ubuntu-latest
     env:
       Greeting: Hello
