@@ -13,4 +13,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Hi job-1"
+          echo "Hi job-1: var_a = $var_a"
