@@ -10,5 +10,5 @@ jobs:
   job-1:
     name: My first job with $var_a
     steps:
-      run: |
-        echo "Hi job-1"
+      - run: |
+          echo "Hi job-1"
