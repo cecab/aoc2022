@@ -2,6 +2,10 @@ name: Testing Vars
 env:
   var_a: 'Value-A'
 
+on:
+  push:
+    branches:
+      - master
 jobs:
   job-1:
     name: My first job with $var_a
