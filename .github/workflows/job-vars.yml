@@ -10,6 +10,7 @@ on:
 jobs:
   job-1:
     name: My first job with $var_a
+    runs-on: ubuntu-latest
     steps:
       - run: |
           echo "Hi job-1"
