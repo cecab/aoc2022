@@ -5,6 +5,7 @@ on:
       - main
 env:
   DAY_OF_WEEK: Monday
+  CLUSTER: ${{ inputs.cluster || 'qas' }}
 
 jobs:
   greeting_job:
@@ -12,7 +13,7 @@ jobs:
     env:
       Greeting: Hello
     steps:
-      - name: "Say Hello Mona it's Monday - ${{env.DAY_OF_WEEK}}"
+      - name: "Say Hello Mona it's Monday - ${{env.DAY_OF_WEEK}} - ${{env.CLUSTER}}."
         if: ${{ env.DAY_OF_WEEK == 'Monday' }}
         run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
         env:
