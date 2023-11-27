@@ -9,7 +9,7 @@ env:
 
 jobs:
   greeting_job:
-    name: "My job name is ${{env.CLUSTER}}"
+    name: "My job name is ${{env.DAY_OF_WEEK}}"
     runs-on: ubuntu-latest
     env:
       Greeting: Hello
