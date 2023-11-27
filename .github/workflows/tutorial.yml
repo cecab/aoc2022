@@ -9,6 +9,11 @@ on:
         options:
           - Value 1
           - Value 2
+      build-and-deploy:
+        description: Rebuild the Target Server?
+        type: boolean
+        required: false
+          
   
   push:
     branches:
@@ -20,7 +25,8 @@ env:
 
 jobs:
   greeting_job:
-    name: "My job name ixss $DAY_OF_WEEK - ${{inputs.baseUrl}}"
+    name: "My job name is really static"
+    if: ${{ inputs.build-and-deploy == true}}
     runs-on: ubuntu-latest
     env:
       Greeting: Hello
