@@ -16,7 +16,7 @@ on:
       - main
 env:
   DAY_OF_WEEK: Monday
-  CLUSTER: 
+  CLUSTER: ${{inputs.baseUrl != '' && inputs.baseUrl || 'defaultCluster' }}
 
 jobs:
   greeting_job:
