@@ -1,15 +1,26 @@
+
 on:
+  workflow_dispatch:
+    inputs:
+      baseUrl:
+        description: 'Target Server for E2E Tests'
+        required: true
+        type: choice
+        options:
+          - Value 1
+          - Value 2
+  
   push:
     branches:
       - master
       - main
 env:
   DAY_OF_WEEK: Monday
-  CLUSTER: 'default'
+  CLUSTER: 
 
 jobs:
   greeting_job:
-    name: "My job name is $DAY_OF_WEEK"
+    name: "My job name ixss $DAY_OF_WEEK - ${{inputs.baseUrl}}"
     runs-on: ubuntu-latest
     env:
       Greeting: Hello
