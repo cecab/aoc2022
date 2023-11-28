@@ -7,6 +7,14 @@ on:
     branches:
       - master
       - main
+
+  workflow_call:
+    inputs:
+      extra:
+        description: 'Extra'
+        required: true
+        type: string
+        default: defaultExtra
 jobs:
   job-1:
     name: "My first job with $var_a"
@@ -14,3 +22,4 @@ jobs:
     steps:
       - run: |
           echo "Hi job-1: var_a = $var_a"
+          echo "inputs.extra: ${{inputs.extra}}"
