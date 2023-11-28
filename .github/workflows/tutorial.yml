@@ -42,5 +42,5 @@ jobs:
     name: Jobs and Vars
     uses: cecab/aoc2022/.github/workflows/job-vars.yml@main
     with:
-      extra: "Callee with ${{ vars.REPO_VAR }}"
+      extra: "Callee with ${{ vars.REPO_VAR }} , and gh_var : ${{ vars.GH_ENV_VAR}} "
        
