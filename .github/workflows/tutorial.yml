@@ -36,3 +36,11 @@ jobs:
         run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
         env:
           First_Name: Mona
+
+
+  job-vars:
+    name: Jobs and Vars
+    uses: cecab/aoc2022/.github/workflows/job-vars.yml@main
+    with:
+      extra: 'Callee extra'
+       
