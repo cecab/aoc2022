@@ -26,7 +26,8 @@ env:
 jobs:
   greeting_job:
     name: "My job name is really static"
-    if: ${{ vars.CLUSTER != '' }}
+    environment: ${{ env.CLUSTER }}
+    if: ${{ inputs.baseUrl != '' }}
     runs-on: ubuntu-latest
     env:
       Greeting: Hello
