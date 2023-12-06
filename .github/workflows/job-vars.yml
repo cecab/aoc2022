@@ -16,8 +16,14 @@ on:
         type: string
         default: defaultExtra
 jobs:
+  generate-tip-message:
+    runs-on: ubuntu-latest
+    outputs:
+      TIP_MESSAGE: ${{ github.event.head_commit.message }}
+  
   job-1:
     name: "My first job with $var_a"
+    needs: generate-tip-message
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -26,4 +32,4 @@ jobs:
 
       - run: |
 
-          echo "Latest message: ${{ github.event.head_commit.message }}"
+          echo "Latest message: ${{ needs.generate-tip-message.ouputs.TIP_MESSAGE}}"
