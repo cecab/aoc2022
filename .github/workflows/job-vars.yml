@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Get the tip
         id: get-tip
-        run: echo "tip_m=${{ github.event.head_commit.message }}" >> $GITHUB_OUTPUT
+        run: echo "tip_m=`echo ${{ github.event.head_commit.message }} | grep 'be skip'" >> $GITHUB_OUTPUT
       
       - run: |
           echo "Hi job-1: var_a = $var_a"
