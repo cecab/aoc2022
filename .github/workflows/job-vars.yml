@@ -29,4 +29,4 @@ jobs:
           echo "inputs.extra: ${{inputs.extra}}"
 
       - run: |
-          echo "Latest message: ${{ steps.get-tip.ouputs.tip_m }}"
+          echo "Latest message: ${{ steps.get-tip.outputs.tip_m }}"
