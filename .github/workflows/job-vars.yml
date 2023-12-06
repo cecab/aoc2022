@@ -16,9 +16,20 @@ on:
         type: string
         default: defaultExtra
 jobs:
+  job-tip:
+    name: "Getting commit message for skipping"
+    runs-on: ubuntu-latest
+    outputs:
+      HEAD_TIP: ${{ steps.get-tip.outputs.tip_m }}
+    steps:
+      - name: Get the tip
+        id: get-tip
+        run: echo "tip_m=`echo ${{ github.event.head_commit.message }} | grep 'be skip' || echo 'fallback_tip'`" >> $GITHUB_OUTPUT
+      
   job-1:
     name: "My first job with $var_a"
     runs-on: ubuntu-latest
+    needs: job-tip
     steps:
       - name: Get the tip
         id: get-tip
@@ -30,3 +41,7 @@ jobs:
 
       - run: |
           echo "Latest message: ${{ steps.get-tip.outputs.tip_m }}"
+      - run: |
+          echo "From other job: ${{ needs.job-tip.outputs.HEAD_TIP }}
+          
+        
