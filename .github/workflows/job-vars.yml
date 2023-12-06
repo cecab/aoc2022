@@ -31,5 +31,4 @@ jobs:
           echo "inputs.extra: ${{inputs.extra}}"
 
       - run: |
-
           echo "Latest message: ${{ needs.generate-tip-message.ouputs.TIP_MESSAGE}}"
