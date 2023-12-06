@@ -16,19 +16,18 @@ on:
         type: string
         default: defaultExtra
 jobs:
-  generate-tip-message:
-    runs-on: ubuntu-latest
-    outputs:
-      TIP_MESSAGE: ${{ github.event.head_commit.message }}
-  
   job-1:
     name: "My first job with $var_a"
     needs: generate-tip-message
     runs-on: ubuntu-latest
     steps:
+      - name: Get the tip
+        id: get-tip
+        run: echo "tip_m=${{ github.event.head_commit.message }}" >> $GITHUB_OUTPUT
+      
       - run: |
           echo "Hi job-1: var_a = $var_a"
           echo "inputs.extra: ${{inputs.extra}}"
 
       - run: |
-          echo "Latest message: ${{ needs.generate-tip-message.ouputs.TIP_MESSAGE}}"
+          echo "Latest message: ${{ steps.get-tip.ouputs.tip_m }}"
