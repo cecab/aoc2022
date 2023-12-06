@@ -18,7 +18,6 @@ on:
 jobs:
   job-1:
     name: "My first job with $var_a"
-    needs: generate-tip-message
     runs-on: ubuntu-latest
     steps:
       - name: Get the tip
