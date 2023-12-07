@@ -42,6 +42,6 @@ jobs:
       - run: |
           echo "Latest message: ${{ steps.get-tip.outputs.tip_m }}"
       - run: |
-          echo "From other job: ${{ needs.job-tip.outputs.HEAD_TIP }}
+          echo "From other job: ${{ needs.job-tip.outputs.HEAD_TIP }}"
           
         
