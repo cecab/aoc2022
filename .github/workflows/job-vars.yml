@@ -44,7 +44,7 @@ jobs:
       - run: |
           echo "From other job: ${{ needs.job-tip.outputs.HEAD_TIP }}"
       - name: Compile and Deploy
-        if: ${{ needs.job-tip.outputs.HEAD_TIP == do_deploy }}
+        if: ${{ needs.job-tip.outputs.HEAD_TIP == 'do_deploy' }}
         run: |
           echo "Compiling..."
           
