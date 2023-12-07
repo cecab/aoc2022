@@ -17,7 +17,7 @@ on:
         default: defaultExtra
 jobs:
   job-tip:
-    name: "Getting commit message for skipping"
+    name: "Getting commit message for skipping them"
     runs-on: ubuntu-latest
     outputs:
       HEAD_TIP: ${{ steps.get-tip.outputs.tip_m }}
