@@ -45,7 +45,7 @@ jobs:
           echo "From other job: ${{ needs.job-tip.outputs.HEAD_TIP }}"
       - name: Compile and Deploy
         if: ${{ needs.job-tip.outputs.HEAD_TIP != 'fallback_tip' }}
-      - run:
+        run: |
           echo "Compiling..."
           
           
