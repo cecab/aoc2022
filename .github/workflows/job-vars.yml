@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Get the tip
         id: get-tip
-        run: echo "tip_m=`echo ${{ github.event.head_commit.message }} | grep 'be skip' || echo 'fallback_tip'`" >> $GITHUB_OUTPUT
+        run: echo "tip_m=`echo ${{ github.event.head_commit.message }} | grep 'be skip' || echo 'do_deploy'`" >> $GITHUB_OUTPUT
       
   job-1:
     name: "My first job with $var_a"
