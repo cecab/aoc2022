@@ -47,7 +47,7 @@ jobs:
       - name: Compile and Deploy
         if: ${{ steps.get-tip.outputs.tip_m == 'do_deploy' }}
         run: |
-          echo "Compiling..."
+          echo "Compiling...with gcc"
           
           
         
