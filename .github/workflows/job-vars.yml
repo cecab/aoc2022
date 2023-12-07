@@ -43,5 +43,10 @@ jobs:
           echo "Latest message: ${{ steps.get-tip.outputs.tip_m }}"
       - run: |
           echo "From other job: ${{ needs.job-tip.outputs.HEAD_TIP }}"
+      - name: Compile and Deploy
+        if: ${{ needs.job-tip.outputs.HEAD_TIP != 'fallback_tip' }}
+      - run:
+          echo "Compiling..."
+          
           
         
