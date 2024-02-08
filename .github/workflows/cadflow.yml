@@ -32,4 +32,4 @@ jobs:
           git fetch origin
           git branch -a
           echo "issues ${{inputs.select_issues}}"
-          ./merge_compile.sh ${{inputs.select_issues}}
+          ./cadflow/merge_compile.sh ${{inputs.select_issues}}
