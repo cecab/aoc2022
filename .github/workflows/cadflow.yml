@@ -31,3 +31,4 @@ jobs:
           cat .git/config
           git fetch origin
           git branch -a
+          echo "issues ${{inputs.select_issues}}"
