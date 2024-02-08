@@ -1,0 +1,29 @@
+name: CAD flow
+
+on:
+  workflow_dispatch:
+    inputs:
+      select_issues:
+        description: 'Issue numbers to be deployed'
+        required: true
+        type: string
+
+      build-and-deploy:
+        description: Which cluster?
+        required: true
+        type: choice
+        options:
+          - Cluster-A
+          - Cluster-B
+          - Cluster-C          
+          
+jobs:
+  merge-compile:
+    name: "Merge and compile the issues : ${{inputs.select_issues}}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Fetch all the issue branches"
+        id: fetch-branches
+        run: |
+          git branch -a
+          cat .git/config
