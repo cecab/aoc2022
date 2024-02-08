@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       select_issues:
-        description: 'Issue numbers to be deployed'
+        description: 'Issue numbers selection'
         required: true
         type: string
 
