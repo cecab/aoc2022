@@ -29,3 +29,5 @@ jobs:
         run: |
           git branch -a
           cat .git/config
+          git fetch origin
+          git branch -a
