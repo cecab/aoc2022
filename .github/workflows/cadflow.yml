@@ -1,13 +1,16 @@
+name: CAD flow
 
 on:
   workflow_dispatch:
     inputs:
       select_issues:
         description: 'Issue numbers to be deployed'
-        required: string
+        required: true
+        type: string
 
       build-and-deploy:
         description: Which cluster?
+        required: true
         type: choice
         options:
           - Cluster-A
