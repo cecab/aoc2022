@@ -7,6 +7,7 @@ for issue in $issues ; do
     issue_branch=`git branch -a | grep -- "-issue-${issue}-" | tr -d " "`
     branches="${branches} $issue_branch"
 done
+git config --global user.email "deployer@flowniq.com"
 echo "into main..."
 git checkout -b cadflow/deploy origin/main
 git status
