@@ -3,12 +3,12 @@ name: CAD flow
 on:
   workflow_dispatch:
     inputs:
-      select_issues:
+      issues:
         description: 'Issue numbers selection'
         required: true
         type: string
 
-      build-and-deploy:
+      cluster:
         description: Which cluster?
         required: true
         type: choice
@@ -19,7 +19,7 @@ on:
           
 jobs:
   merge-compile:
-    name: "Merge and compile the issues : ${{inputs.select_issues}}"
+    name: "Merge and compile the issues : ${{inputs.issues}}"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -31,5 +31,6 @@ jobs:
           cat .git/config
           git fetch origin
           git branch -a
-          echo "issues ${{inputs.select_issues}}"
-          ./cadflow/merge_compile.sh ${{inputs.select_issues}}
+          echo "issues ${{inputs.issues}}"
+          ./cadflow/merge_compile.sh ${{inputs.issues}}
+          

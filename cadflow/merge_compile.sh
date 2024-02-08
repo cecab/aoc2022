@@ -8,4 +8,6 @@ for issue in $issues ; do
     branches="${branches} $issue_branch"
 done
 echo "Mering branches: $branches"
+git merge $branches
+find . | grep -v \.git
 exit 0
