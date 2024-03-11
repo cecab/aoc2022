@@ -13,15 +13,20 @@ on:
         required: true
         type: choice
         options:
-          - Cluster-A
-          - Cluster-B
-          - Cluster-C          
+          - cad-designer-a.flowniq.com
+          - cad-designer-b.flowniq.com
+          - cad-designer-c.flowniq.com
           
 jobs:
   merge-compile:
     name: "Merge and compile the issues : ${{inputs.select_issues}}"
     runs-on: ubuntu-latest
     steps:
+      - name: Ge review ID
+        id: review-name
+        run: |
+          echo "Env choosen ${{ steps.review-name.outputs.review_id }}"
+          echo "review_id=`echo ${{ inputs.review-env }} | sed -e 's/.*designer-\([a-z]*\).*/\1/g'`" >> $GITHUB_OUTPUT            
       - name: "Fetch all the issue branches"
         id: fetch-branches
         run: |
