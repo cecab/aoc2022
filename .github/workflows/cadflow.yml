@@ -26,7 +26,11 @@ jobs:
         id: review-name
         run: |
           echo "Env choosen ${{ steps.review-name.outputs.review_id }}"
-          echo "review_id=`echo ${{ inputs.review-env }} | sed -e 's/.*designer-\([a-z]*\).*/\1/g'`" >> $GITHUB_OUTPUT            
+          echo "review_id=`echo ${{ inputs.review-env }} | sed -e 's/.*designer-\([a-z]*\).*/\1/g'`" >> $GITHUB_OUTPUT
+      - name: Show the var
+        run: |
+          echo "Env choosen ${{ steps.review-name.outputs.review_id }}"
+          
       # - name: "Fetch all the issue branches"
       #   id: fetch-branches
       #   run: |
