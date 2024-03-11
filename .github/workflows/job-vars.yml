@@ -12,11 +12,8 @@ on:
       review-env:
         description: Target Review Location?
         required: true
-        type: choice
-        options:
-          - cad-designer-a.flowniq.com
-          - cad-designer-b.flowniq.com
-          - cad-designer-c.flowniq.com    
+        type: string
+
     
 #   workflow_call:
 #     inputs:
