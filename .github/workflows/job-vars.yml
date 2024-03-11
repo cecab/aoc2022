@@ -7,7 +7,17 @@ on:
     branches:
       - master
       - main
-
+  workflow_dispatch:
+    inputs:
+      review-env:
+        description: Target Review Location?
+        required: true
+        type: choice
+        options:
+          - cad-designer-a.flowniq.com
+          - cad-designer-b.flowniq.com
+          - cad-designer-c.flowniq.com    
+    
   workflow_call:
     inputs:
       review-env:
