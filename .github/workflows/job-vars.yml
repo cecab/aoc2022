@@ -18,23 +18,23 @@ on:
           - cad-designer-b.flowniq.com
           - cad-designer-c.flowniq.com    
     
-  workflow_call:
-    inputs:
-      review-env:
-        description: Target Review Location?
-        required: true
-        type: choice
-        options:
-          - cad-designer-a.flowniq.com
-          - cad-designer-b.flowniq.com
-          - cad-designer-c.flowniq.com
+#   workflow_call:
+#     inputs:
+#       review-env:
+#         description: Target Review Location?
+#         required: true
+#         type: choice
+#         options:
+#           - cad-designer-a.flowniq.com
+#           - cad-designer-b.flowniq.com
+#           - cad-designer-c.flowniq.com
 
-      extra:
-        description: 'Extra'
-        required: true
-        type: string
-        default: defaultExtra
-jobs:
+#       extra:
+#         description: 'Extra'
+#         required: true
+#         type: string
+#         default: defaultExtra
+# jobs:
   job-tip:
     name: "Getting commit message for skipping them"
     runs-on: ubuntu-latest
