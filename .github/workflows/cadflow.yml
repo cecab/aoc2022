@@ -30,10 +30,8 @@ jobs:
       - name: Show the var
         run: |
           echo "Env choosen ${{ steps.review-name.outputs.review_id }}"
-          
-      # - name: "Fetch all the issue branches"
-      #   id: fetch-branches
-      #   run: |
-      #     git branch -a
-      #     cat .git/config
-      
+      - name: "Show PRs"
+        run: |
+          gh auth status
+          gh pr ls
+        
