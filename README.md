@@ -8,8 +8,6 @@ Download from https://github.com/ccb/aoc
 
 ## Usage
 
-FIXME: explanation
-
 Run the project directly, via `:exec-fn`:
 
     $ clojure -X:run-x
