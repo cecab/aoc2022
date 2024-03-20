@@ -32,7 +32,11 @@ jobs:
           echo "review_id=`echo ${{ inputs.review-env }} | sed -e 's/.*designer-\([a-z]*\).*/\1/g'`" >> $GITHUB_OUTPUT
       - name: Show the var
         run: |
-          echo "Env choosen ${{ steps.review-name.outputs.review_id }}"
+          echo "Env choosen ${{ steps.review-name.outputs.review_id }}" 
+      - name: "Merge all issues"
+        run: |
+          echo $GITHUB_JOB
+          git checkoub -f cad-${{ env.GITHUB_JOB }}
       - name: "Show PRs"
         run: |
           env
