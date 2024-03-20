@@ -36,7 +36,15 @@ jobs:
       - name: "Merge all issues"
         run: |
           echo $GITHUB_JOB
-          git checkoub -f cad-${{ env.GITHUB_JOB }}
+          cad_branch="cad-${{ env.GITHUB_JOB }}"
+          git checkout -f $cad_branch
+          git merge otro/extra-for-issue-10 otro/issue-10-parte
+          git commit -m "Merged both..."
+          echo " Create a new PR"
+          gh pr create --title "CAD - merge" \
+          --body " Branches are otro/extra-for-issue-10 otro/issue-10-parte"  \
+          -B master \
+
       - name: "Show PRs"
         run: |
           env
