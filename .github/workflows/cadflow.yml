@@ -41,8 +41,8 @@ jobs:
           echo $GITHUB_JOB
           cad_branch="cad-$GITHUB_RUN_ID
           git checkout -f $cad_branch
-          git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $b1 $b2
-          gh pr create --title "CAD -merge"  --body "Branches are:  $GITHUB_RUN_ID " -B master
+          git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $b1 $b2"
+          gh pr create --title "Title for $b1 $b2"  --body "Branches are:  $GITHUB_RUN_ID" -B master
 
       - name: "Show PRs"
         run: |
