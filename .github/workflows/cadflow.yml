@@ -36,6 +36,7 @@ jobs:
       - name: "Merge all issues"
         run: |
           set -x
+          git branch -a
           b1="otro/extra-for-issue-11"
           b2="otro/issue-11-parte"
           echo $GITHUB_JOB
