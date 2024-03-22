@@ -36,6 +36,7 @@ jobs:
       - name: "Merge all issues"
         run: |
           set -x
+          git fetch --unshallow origin
           git branch -a
           b1="otro/extra-for-issue-11"
           b2="otro/issue-11-parte"
