@@ -41,6 +41,8 @@ jobs:
           cad_branch="cad-$GITHUB_RUN_ID"
           git checkout -b ${cad_branch}
           branches=`git branch -a | grep issue-11`
+          git config user.email "ccastill100@gmail.com"
+          git config user.name "Cesar CI"
           git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $branches
           gh pr create --title "Title for $cad_branch"  --body "Branches are:  $GITHUB_RUN_ID" -B master
 
