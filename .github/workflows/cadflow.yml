@@ -35,11 +35,12 @@ jobs:
           echo "Env choosen ${{ steps.review-name.outputs.review_id }}" 
       - name: "Merge all issues"
         run: |
+          set -x
           echo $GITHUB_JOB
           cad_branch="cad-${{ env.GITHUB_JOB }}"
           git checkout -f $cad_branch
-          git merge otro/extra-for-issue-10 otro/issue-10-parte
-          git commit -m "Merged both..."
+          git merge --log -m "CAD merge deploy for github ID $GITHUB_JOB" otro/extra-for-issue-11 otro/issue-11-parte
+
           echo " Create a new PR"
           gh pr create --title "CAD - merge" \
           --body " Branches are otro/extra-for-issue-10 otro/issue-10-parte"  \
