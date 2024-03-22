@@ -39,13 +39,13 @@ jobs:
           b1="otro/extra-for-issue-11"
           b2="otro/issue-11-parte"
           echo $GITHUB_JOB
-          cad_branch="cad-${{ env.GITHUB_JOB }}"
+          cad_branch="cad-$GITHUB_RUN_ID
           git checkout -f $cad_branch
-          git merge --log -m "CAD merge deploy for github ID $GITHUB_JOB" $b1 $b2
+          git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $b1 $b2
 
           echo " Create a new PR"
           gh pr create --title "CAD - merge $b1 $b2" \
-          --body " Branches are: $b1 $b2 in github ID: $GITHUB_JOB  \
+          --body " Branches are: $b1 $b2 in github ID: $GITHUB_RUN_ID  \
           -B master \
 
       - name: "Show PRs"
