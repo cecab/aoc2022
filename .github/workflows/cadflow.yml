@@ -38,13 +38,11 @@ jobs:
           set -x
           git fetch --unshallow origin
           git branch -a
-          b1="otro/extra-for-issue-11"
-          b2="otro/issue-11-parte"
-          echo $GITHUB_JOB
           cad_branch="cad-$GITHUB_RUN_ID"
           git checkout -b ${cad_branch}
-          git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $b1 $b2
-          gh pr create --title "Title for $b1 $b2"  --body "Branches are:  $GITHUB_RUN_ID" -B master
+          branches=`git branch -a | grep issue-11`
+          git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $branches
+          gh pr create --title "Title for $cad_branch"  --body "Branches are:  $GITHUB_RUN_ID" -B master
 
       - name: "Show PRs"
         run: |
