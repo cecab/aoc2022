@@ -2,7 +2,7 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
-
+;; Issue 11
 (def points-db
   {"A" 1
    "B" 2

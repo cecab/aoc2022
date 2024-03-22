@@ -8,22 +8,48 @@ on:
         required: true
         type: string
 
-      build-and-deploy:
+      review-env:
         description: Which cluster?
         required: true
         type: choice
         options:
-          - Cluster-A
-          - Cluster-B
-          - Cluster-C          
+          - cad-designer-a.flowniq.com
+          - cad-designer-b.flowniq.com
+          - cad-designer-c.flowniq.com
           
 jobs:
   merge-compile:
     name: "Merge and compile the issues : ${{inputs.select_issues}}"
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
-      - name: "Fetch all the issue branches"
-        id: fetch-branches
+      - uses: actions/checkout@v3      
+      - name: Get review ID
+        id: review-name
         run: |
+          echo "Env choosen ${{ steps.review-name.outputs.review_id }}"
+          echo "review_id=`echo ${{ inputs.review-env }} | sed -e 's/.*designer-\([a-z]*\).*/\1/g'`" >> $GITHUB_OUTPUT
+      - name: Show the var
+        run: |
+          echo "Env choosen ${{ steps.review-name.outputs.review_id }}" 
+      - name: "Merge all issues"
+        run: |
+          set -x
+          git fetch --unshallow origin
           git branch -a
-          cat .git/config
+          cad_branch="cad-$GITHUB_RUN_ID"
+          git checkout -b ${cad_branch}
+          branches=`git branch -a | grep issue-11`
+          git config user.email "ccastill100@gmail.com"
+          git config user.name "Cesar CI"
+          git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $branches
+          git push origin HEAD:$cad_branch
+          gh pr create --title "Title for $cad_branch"  --body "Branches are:  $GITHUB_RUN_ID" -B main
+
+      - name: "Show PRs"
+        run: |
+          env
+          gh auth status
+          gh pr ls
+        
