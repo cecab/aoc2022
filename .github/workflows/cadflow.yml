@@ -45,7 +45,7 @@ jobs:
           git config user.name "Cesar CI"
           git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $branches
           git push origin HEAD:$cad_branch
-          gh pr create --title "Title for $cad_branch"  --body "Branches are:  $GITHUB_RUN_ID" -B master
+          gh pr create --title "Title for $cad_branch"  --body "Branches are:  $GITHUB_RUN_ID" -B main
 
       - name: "Show PRs"
         run: |
