@@ -6,7 +6,6 @@
 
 (comment
   (def filename "day3-ex-p2.txt")
-  ;; for priority
   (defn build-priorities
     [start-char start-offset]
     (mapcat
