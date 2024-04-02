@@ -74,6 +74,7 @@ jobs:
         
   deploy-merge:
     name: "Deploy and merge"
+    runs-on: ubuntu-latest    
     needs: merge-compile
     steps:
       - name: "Merge the PR"
