@@ -79,6 +79,8 @@ jobs:
     steps:
       - name: "Merge the PR"
         run: |
+          # We can check the URL about.json before the merge...
+          gh  pr merge -m  ${{ needs.merge-compile.outputs.CAD_BRANCH}}
           echo "Branch to merge: ${{ needs.merge-compile.outputs.CAD_BRANCH}}"
       
     
