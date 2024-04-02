@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
+    outputs:
+      CAD_BRANCH: ${{ steps.cad-merge.cad_branch }}
     steps:
       - uses: actions/checkout@v3      
       - name: Get review ID
@@ -34,18 +36,35 @@ jobs:
         run: |
           echo "Env choosen ${{ steps.review-name.outputs.review_id }}" 
       - name: "Merge all issues"
+        id: cad-merge
         run: |
           set -x
           git fetch --unshallow origin
           git branch -a
           cad_branch="cad-$GITHUB_RUN_ID"
-          git checkout -b ${cad_branch}
-          branches=`git branch -a | grep issue-11`
+          echo "Starting branch to merge all issues, from origin/main"
+          git checkout -b ${cad_branch} origin/main
+          # Identification for Git operations
           git config user.email "ccastill100@gmail.com"
           git config user.name "Cesar CI"
+
+          branches=""
+          for issue in ${{inputs.select_issues}} ; do
+             echo "Resolving branch for issue $issue"
+             issue_branch=`git branch -a | grep -- "issue-${issue}" | tr -d " "`
+             branches="${branches} $issue_branch"
+          done
+
+          for branch in $branches ; do
+             echo " === Changes branch $branch === "
+             git log --oneline ${base_commit}..$branch
+          done 
+
+          echo "merging for $branches"
           git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $branches
           git push origin HEAD:$cad_branch
-          gh pr create --title "Title for $cad_branch"  --body "Branches are:  $GITHUB_RUN_ID" -B main
+          gh pr create --title "CAD deploy and Merge - $cad_branch"  --body "Branches are:  $branches" -B main
+          echo "cad_branch=${cad_branch}" >> $GITHUB_OUTPUT
 
       - name: "Show PRs"
         run: |
@@ -53,3 +72,13 @@ jobs:
           gh auth status
           gh pr ls
         
+  deploy-merge:
+    name: "Deploy and merge"
+    needs: merge-compile
+    steps:
+      - name: "Merge the PR"
+        run: |
+          echo "Branch to merge: ${{ needs.merge-compile.outputs.CAD_BRANCH}}"
+      
+    
+    
