@@ -7,7 +7,10 @@ on:
         description: 'Issue numbers to be deployed'
         required: true
         type: string
-
+      upstream:
+        description: 'Upstream branch name to merge the issues'
+        required: true
+        type: string
       review-env:
         description: Which cluster?
         required: true
@@ -42,8 +45,9 @@ jobs:
           git fetch --unshallow origin
           git branch -a
           cad_branch="cad-$GITHUB_RUN_ID"
-          echo "Starting branch to merge all issues, from origin/main"
-          git checkout -b ${cad_branch} origin/main
+          upstream_branch="origin/${{ inputs.upstream }}"
+          echo "Starting branch to merge all issues, from ${upstream_branch}"
+          git checkout -b ${cad_branch} $upstream_branch
           # Identification for Git operations
           git config user.email "ccastill100@gmail.com"
           git config user.name "Cesar CI"
@@ -63,7 +67,7 @@ jobs:
           echo "merging for $branches"
           git merge --log -m "CAD merge deploy for github ID $GITHUB_RUN_ID" $branches
           git push origin HEAD:$cad_branch
-          gh pr create --title "CAD deploy and Merge - $cad_branch"  --body "Branches are:  $branches" -B main
+          gh pr create --title "CAD deploy and Merge - $cad_branch"  --body "Branches are:  $branches" -B $upstream_branch
           echo "cad_branch=${cad_branch}" >> $GITHUB_OUTPUT
 
       - name: "Show PRs"
