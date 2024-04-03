@@ -5,6 +5,7 @@
             ))
 
 (comment
+  ;; detal...
   (def filename "day3-ex-p2.txt")
   (defn build-priorities
     [start-char start-offset]
