@@ -1,8 +1,7 @@
 (ns ccb.day5
   (:require [clojure.java.io :as io]
             [clojure.set :as set]
-            [clojure.string :as str]
-            ))
+            [clojure.string :as str]))
 
 (defn parse-input
   [lines]
