@@ -4,7 +4,7 @@
 
 ;; Issue 11
 (def points-db
-  {"A" 1
+  {"A" 10
    "B" 2
    "C" 3
    "X" :defeat
