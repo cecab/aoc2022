@@ -19,7 +19,6 @@
                     (partition 14 1 line))))))
 
 (comment
-  (f1)
   (def filename "day6.input.txt")
   
 
