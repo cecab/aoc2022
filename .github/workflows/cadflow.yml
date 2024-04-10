@@ -23,8 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
+      MY_KEY: "${{ secrets.CCB_KEY }}"
     steps:
       - uses: actions/checkout@v3
+      - name: Save the secret CCB_KEY in a file
+        echo "$MY_KEY" >> secret.file
+        echo "The content is protected in log-output...?"
+        cat secret.file
+        
       - name: Aument the env vars space
         run: |
           echo "ccb_var_hause=HAUPSTR" >> $GITHUB_ENV
