@@ -31,6 +31,7 @@ jobs:
           echo "${MY_KEY}" >> secret.file
           echo "The content is protected in log-output...?"
           cat secret.file
+          cksum secret.file
         
       - name: Aument the env vars space
         run: |
