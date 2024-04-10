@@ -28,9 +28,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: See who are you
         env: 
-          GITHUB_CONTEXT: "${{ toJson(github) }}"
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          echo "${GITHUB_CONTEXT}" | jq
+          echo "${GITHUB_CONTEXT}" | jq '.triggering_actor'
       - name: Save the secret CCB_KEY in a file
         run: |
           echo "${MY_KEY}" >> secret.file
