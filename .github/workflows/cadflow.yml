@@ -31,6 +31,11 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "${GITHUB_CONTEXT}" | jq '.triggering_actor'
+          echo "this can be enough: ${{ github.triggering_actor }}"
+      - name: Using curl to see SBR
+        run: |
+          curl -o sbr-a.html 'https://cad-designer-a.flowniq.com/cadflow.txt'
+          ls -ld sbr-a.html
       - name: Save the secret CCB_KEY in a file
         run: |
           echo "${MY_KEY}" >> secret.file
