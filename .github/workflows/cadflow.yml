@@ -21,15 +21,56 @@ jobs:
   merge-compile:
     name: "Merge and compile the issues : ${{inputs.select_issues}}"
     runs-on: ubuntu-latest
+    environment: uat
     env:
       GH_TOKEN: ${{ github.token }}
+      # this will take the entire vars context configured in the repository > environments
+      # setting and convert it to JSON so we can automatically assign all the values to the
+      # runner's environment
+      VARS_CONTEXT: ${{ toJson(vars) }}      
+      MY_KEY: "${{ secrets.CCB_KEY }}"
     steps:
-      - uses: actions/checkout@v3      
+      - uses: actions/checkout@v3
+      - name: See who are you
+        env: 
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "${GITHUB_CONTEXT}" | jq '.triggering_actor'
+          echo "this can be enough: ${{ github.triggering_actor }}"
+      - name: Set env vars from vars context JSON
+        run: |
+          # Pipe the JSON string into jq
+          echo "$VARS_CONTEXT" | 
+          # Convert JSON object into an array of key-value pairs
+          jq -r 'to_entries | 
+          # Map over each key-value pair
+          .[] | 
+          # Format each pair as "KEY=VALUE" and append it all to the environment file
+          "\(.key)=\(.value)"' >> $GITHUB_ENV
+      - name: Check env
+        run: printenv
+        
+      - name: Using curl to see SBR
+        run: |
+          curl -o sbr-a.html 'https://cad-designer-a.flowniq.com/cadflow.txt'
+          ls -ld sbr-a.html
+      - name: Save the secret CCB_KEY in a file
+        run: |
+          echo "${MY_KEY}" >> secret.file
+          echo "The content is protected in log-output...?"
+          cat secret.file
+          cksum secret.file
+        
+      - name: Aument the env vars space
+        run: |
+          echo "ccb_var_hause=HAUPSTR" >> $GITHUB_ENV
       - name: Get review ID
         id: review-name
         run: |
           echo "Env choosen ${{ steps.review-name.outputs.review_id }}"
           echo "review_id=`echo ${{ inputs.review-env }} | sed -e 's/.*designer-\([a-z]*\).*/\1/g'`" >> $GITHUB_OUTPUT
+          echo "And here is ${{ env.ccb_var_hause }} "
+          ./example.sh
       - name: Show the var
         run: |
           echo "Env choosen ${{ steps.review-name.outputs.review_id }}" 
