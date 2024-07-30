@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
+      # this will take the entire vars context configured in the repository > environments
+      # setting and convert it to JSON so we can automatically assign all the values to the
+      # runner's environment
+      VARS_CONTEXT: ${{ toJson(vars) }}      
       MY_KEY: "${{ secrets.CCB_KEY }}"
     steps:
       - uses: actions/checkout@v3
@@ -32,6 +36,19 @@ jobs:
         run: |
           echo "${GITHUB_CONTEXT}" | jq '.triggering_actor'
           echo "this can be enough: ${{ github.triggering_actor }}"
+      - name: Set env vars from vars context JSON
+        run: |
+          # Pipe the JSON string into jq
+          echo "$VARS_CONTEXT" | 
+          # Convert JSON object into an array of key-value pairs
+          jq -r 'to_entries | 
+          # Map over each key-value pair
+          .[] | 
+          # Format each pair as "KEY=VALUE" and append it all to the environment file
+          "\(.key)=\(.value)"' >> $GITHUB_ENV
+      - name: Check env
+        run: printenv
+        
       - name: Using curl to see SBR
         run: |
           curl -o sbr-a.html 'https://cad-designer-a.flowniq.com/cadflow.txt'
