@@ -1,5 +1,6 @@
 name: TEST flow
 
+on:
   workflow_dispatch:
     inputs:
       version::
