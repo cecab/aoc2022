@@ -1,1 +1,17 @@
 name: TEST flow
+
+  workflow_dispatch:
+    inputs:
+      version::
+        description: 'Version'
+        required: true
+        type: string
+
+jobs:
+  merge-compile:
+    name: "Merge and compile the issues : ${{inputs.select_issues}}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        run: |
+          echo "Step 1 - ${inputs.version}"
